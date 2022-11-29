@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -13,9 +14,11 @@ class AuthController extends Controller
 
         if(!auth()->attempt($credentials)) abort(401, 'Invalid Credentials');
 
+        $expires = (Carbon::now())->addHours(2);
+
         return response()->json([
             'data' => [
-                'token' => auth()->user()->createToken('default')->plainTextToken
+                'token' => auth()->user()->createToken('default', ['*'], $expires)->plainTextToken
             ]
         ]);
 
