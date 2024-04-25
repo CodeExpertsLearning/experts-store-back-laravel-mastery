@@ -18,11 +18,11 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return ProductCollection
      */
     public function index()
     {
-        return new ProductCollection($this->product->paginate(10));
+        return new ProductCollection($this->product->latest()->paginate(10));
     }
 
     /**
